@@ -13,7 +13,7 @@ services:
       - bluesteel-net
 
   nats-relay:
-    image: bluest-eel/nats-relay:${VERSION}
+    image: bluesteelabm/nats-relay:${VERSION}
     build:
       context: ./ws-tcp-relay
     ports:

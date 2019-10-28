@@ -24,7 +24,7 @@ $(WS_RELAY_CODE_DIR):
 	@cd $(WS_RELAY_DIR) && git clone $(WS_RELAY_REPO) $(WS_RELAY_CODE_NAME)
 
 nats-relay-img: $(WS_RELAY_CODE_DIR)
-	@docker build -t bluest-eel/nats-relay:$(VERSION) $(WS_RELAY_DIR)
+	@docker build -t bluesteelabm/nats-relay:$(VERSION) $(WS_RELAY_DIR)
 
 clean-docker:
 	@docker system prune -f
