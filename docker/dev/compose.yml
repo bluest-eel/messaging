@@ -2,10 +2,24 @@ version: '3'
 
 services:
 
-  dev:
+  nats:
     image: nats:2.1.0
     container_name: messaging
     ports:
-      - 4444:4444
+      - 4222:4222
       - 6222:6222
       - 8222:8222
+    networks:
+      - bluesteel-net
+
+  nats-relay:
+    image: bluest-eel/nats-relay:${VERSION}
+    build:
+      context: ./ws-tcp-relay
+    ports:
+      - 4223:4223
+    networks:
+      - bluesteel-net
+
+networks:
+  bluesteel-net:
