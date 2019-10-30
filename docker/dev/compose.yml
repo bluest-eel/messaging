@@ -2,13 +2,33 @@ version: '3'
 
 services:
 
-  nats:
+  nats1:
     image: nats:2.1.0
-    container_name: messaging
+    container_name: messaging1
+    command: -cluster nats://0.0.0.0:5222 -m 8222
     ports:
       - 4222:4222
+      - 5222:5222
       - 6222:6222
       - 8222:8222
+    networks:
+      - bluesteel-net
+
+  nats2:
+    image: nats:2.1.0
+    container_name: messaging2
+    command: -p 14222 -cluster nats://0.0.0.0:15222 -routes nats://nats1:5222
+    ports:
+      - 14222:14222
+    networks:
+      - bluesteel-net
+
+  nats3:
+    image: nats:2.1.0
+    container_name: messaging3
+    command: -p 24222 -cluster nats://0.0.0.0:25222 -routes nats://nats1:5222
+    ports:
+      - 24222:24222
     networks:
       - bluesteel-net
 
@@ -16,6 +36,7 @@ services:
     image: bluesteelabm/nats-relayd:${RELAYD_VERSION}
     build:
       context: ./ws-tcp-relay
+    container_name: nats-relay
     ports:
       - 4223:4223
     networks:

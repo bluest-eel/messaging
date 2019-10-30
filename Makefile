@@ -23,8 +23,18 @@ down:
 	@VERSION=$(VERSION) RELAYD_VERSION=$(WS_RELAY_VERSION) \
 	docker-compose -f ./docker/dev/compose.yml down
 
-bash:
-	@docker exec -it messaging bash
+check-cluster:
+	@curl --silent http://localhost:8222/varz | jq .connect_urls
+
+install-clients:
+	@go get github.com/nats-io/go-nats-examples/tools/nats-pub
+	@go get github.com/nats-io/go-nats-examples/tools/nats-sub
+
+test-sub:
+	@nats-sub -s "nats://localhost:4222" hello
+
+test-pub:
+	@nats-pub -s "nats://localhost:24222" hello world
 
 $(WS_RELAY_CODE_DIR):
 	@cd $(WS_RELAY_DIR) && \
