@@ -42,5 +42,15 @@ services:
     networks:
       - bluesteel-net
 
+  vue-example:
+    image: bluesteelabm/vue-nats-example:${VERSION}
+    build:
+      context: ./node-nats-example
+    container_name: vue-example
+    ports:
+      - 4488:4488
+    networks:
+      - bluesteel-net
+
 networks:
   bluesteel-net:

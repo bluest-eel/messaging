@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>vue-nats</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <!-- development version, includes helpful console warnings -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/isobit/websocket-nats/master/dist/websocket-nats.dev.js">
+    </script>
+</head>
+
+<body>
+    <div>
+        <div id="app">
+            <p>{{ message }}</p>
+            <button v-on:click="publishIt">Publish a Message</button>
+        </div>
+    </div>
+    <script>
+        var nats = NATS.connect('ws://localhost:4223');
+        // Simple Subscriber
+        nats.subscribe('foo', function (msg) {
+            console.log('Received a message: ' + msg);
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Vue the console for details ...'
+            },
+            methods: {
+                publishIt: function () {
+                    nats.publish('foo', 'Hello World!');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
